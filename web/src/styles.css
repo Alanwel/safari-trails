@@ -1,0 +1,276 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Tailwind v4 reads these into utility classes: `bg-forest-700`,
+   `text-ochre-500`, `font-display`, and so on.
+   --------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+
+  /* Deep forest greens — the brand base */
+  --color-forest-50: #f0f6f2;
+  --color-forest-100: #dcebe1;
+  --color-forest-200: #bcd7c5;
+  --color-forest-300: #8fbba1;
+  --color-forest-400: #5d9878;
+  --color-forest-500: #3a7c5c;
+  --color-forest-600: #2b6249;
+  --color-forest-700: #1f4c39;
+  --color-forest-800: #16382b;
+  --color-forest-900: #0f241b;
+  --color-forest-950: #091510;
+
+  /* Warm sand — backgrounds and surfaces */
+  --color-sand-50: #fbf9f5;
+  --color-sand-100: #f5f1e9;
+  --color-sand-200: #ebe4d6;
+  --color-sand-300: #dccfb9;
+  --color-sand-400: #c8b492;
+
+  /* Ochre — accents, prices, CTAs */
+  --color-ochre-100: #f7e9d3;
+  --color-ochre-200: #efd4a5;
+  --color-ochre-300: #e3b76f;
+  --color-ochre-400: #d69c45;
+  --color-ochre-500: #c8862b;
+  --color-ochre-600: #a96f1e;
+  --color-ochre-700: #8a561a;
+
+  /* Clay — secondary accent */
+  --color-clay-500: #b4643c;
+  --color-clay-600: #97502e;
+
+  --shadow-soft: 0 1px 2px rgb(15 36 27 / 0.04), 0 8px 24px -8px rgb(15 36 27 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(15 36 27 / 0.06), 0 18px 40px -12px rgb(15 36 27 / 0.22);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-sand-50);
+    color: var(--color-forest-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    color: var(--color-forest-900);
+  }
+
+  ::selection {
+    background-color: var(--color-forest-200);
+    color: var(--color-forest-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ochre-500);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Small reusable pieces
+   --------------------------------------------------------------------------- */
+@layer components {
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 78rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ochre-600);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--color-forest-700);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-forest-800);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-accent {
+    background-color: var(--color-ochre-500);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-accent:hover:not(:disabled) {
+    background-color: var(--color-ochre-600);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-forest-800);
+    border: 1px solid var(--color-sand-300);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-sand-100);
+    border-color: var(--color-sand-400);
+  }
+
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-sand-200);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.625rem;
+    border: 1px solid var(--color-sand-300);
+    background-color: #fff;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    color: var(--color-forest-900);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-forest-500);
+    box-shadow: 0 0 0 3px var(--color-forest-100);
+  }
+
+  .field::placeholder {
+    color: var(--color-sand-400);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-forest-800);
+    margin-bottom: 0.375rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Animations
+   --------------------------------------------------------------------------- */
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-fade-rise {
+  animation: fade-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s ease both;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-sand-200);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

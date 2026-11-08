@@ -1,0 +1,25 @@
+{
+  "name": "safari-trails",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Safari Trails — a travel tour booking platform. Node + TypeScript API, Supabase Postgres, React + TypeScript web, Vercel deploy.",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=api & npm run dev --workspace=web",
+    "dev:api": "npm run dev --workspace=api",
+    "dev:web": "npm run dev --workspace=web",
+    "build": "npm run build --workspace=api && npm run build --workspace=web",
+    "start": "npm run start --workspace=api",
+    "typecheck": "npm run typecheck --workspace=api && npm run typecheck --workspace=web",
+    "test": "npm run test --workspace=api",
+    "db:reset": "npm run db:reset --workspace=api",
+    "images": "node scripts/fetch-images.mjs",
+    "images:upload": "node scripts/upload-images.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

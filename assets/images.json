@@ -1,0 +1,399 @@
+{
+  "destinations": {
+    "bwindi-impenetrable-forest": {
+      "file": "/images/destinations/bwindi-impenetrable-forest.jpg",
+      "credit": {
+        "title": "Gorila de montaña (Gorilla beringei beringei), parque nacional de la Selva Impenetrable de Bwindi, Uganda, 2024-02-02, DD 80",
+        "artist": "Diego Delso",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gorila_de_monta%C3%B1a_(Gorilla_beringei_beringei),_parque_nacional_de_la_Selva_Impenetrable_de_Bwindi,_Uganda,_2024-02-02,_DD_80.jpg"
+      }
+    },
+    "queen-elizabeth-national-park": {
+      "file": "/images/destinations/queen-elizabeth-national-park.jpg",
+      "credit": {
+        "title": "Ugandan defassa waterbuck (Kobus ellipsiprymnus defassa) juvenile male",
+        "artist": "Charles J. Sharp",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ugandan_defassa_waterbuck_(Kobus_ellipsiprymnus_defassa)_juvenile_male.jpg"
+      }
+    },
+    "murchison-falls-national-park": {
+      "file": "/images/destinations/murchison-falls-national-park.jpg",
+      "credit": {
+        "title": "Murchison Falls, Uganda 01",
+        "artist": "NANTUMBWEJ",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Murchison_Falls,_Uganda_01.jpg"
+      }
+    },
+    "lake-bunyonyi": {
+      "file": "/images/destinations/lake-bunyonyi.jpg",
+      "credit": {
+        "title": "Grulla coronada cuelligrís (Balearica regulorum), isla Kyahugye, lago Bunyonyi, Uganda, 2024-02-02, DD 106",
+        "artist": "Diego Delso",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grulla_coronada_cuelligr%C3%ADs_(Balearica_regulorum),_isla_Kyahugye,_lago_Bunyonyi,_Uganda,_2024-02-02,_DD_106.jpg"
+      }
+    },
+    "jinja-and-the-source-of-the-nile": {
+      "file": "/images/destinations/jinja-and-the-source-of-the-nile.jpg",
+      "credit": {
+        "title": "Jinja source of Nile",
+        "artist": "Dror Feitelson",
+        "license": "CC BY-SA 3.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jinja_source_of_Nile.jpg"
+      }
+    },
+    "rwenzori-mountains": {
+      "file": "/images/destinations/rwenzori-mountains.jpg",
+      "credit": {
+        "title": "Rwenzori 25",
+        "artist": "Vincent Mugaba",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rwenzori_25.jpg"
+      }
+    },
+    "kampala-and-the-cultural-heartland": {
+      "file": "/images/destinations/kampala-and-the-cultural-heartland.jpg",
+      "credit": {
+        "title": "Kampala capital of Uganda busy streets",
+        "artist": "Thelifeofdaniel1994",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kampala_capital_of_Uganda_busy_streets.jpg"
+      }
+    }
+  },
+  "tours": {
+    "bwindi-forest-walk-batwa-village": {
+      "file": "/images/tours/bwindi-forest-walk-batwa-village.jpg",
+      "credit": {
+        "title": "Music performance by the Batwa people of Uganda",
+        "artist": "Owobusingye",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Music_performance_by_the_Batwa_people_of_Uganda.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/bwindi-forest-walk-batwa-village-1.jpg",
+          "alt": "Bamboo forest Entebbe Uganda",
+          "credit": {
+            "title": "Bamboo forest Entebbe Uganda",
+            "artist": "Milkingnomad",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bamboo_forest_Entebbe_Uganda.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/bwindi-forest-walk-batwa-village-2.jpg",
+          "alt": "068 Mountain gorilla close-up at Bwindi Impenetrable Forest National Park Photo by Giles Laurent",
+          "credit": {
+            "title": "068 Mountain gorilla close-up at Bwindi Impenetrable Forest National Park Photo by Giles Laurent",
+            "artist": "Giles Laurent",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:068_Mountain_gorilla_close-up_at_Bwindi_Impenetrable_Forest_National_Park_Photo_by_Giles_Laurent.jpg"
+          }
+        }
+      ]
+    },
+    "queen-elizabeth-royal-tour": {
+      "file": "/images/tours/queen-elizabeth-royal-tour.jpg",
+      "credit": {
+        "title": "059 Baby baboon holding to its mother at Queen Elizabeth National Park Photo by Giles Laurent",
+        "artist": "Giles Laurent",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:059_Baby_baboon_holding_to_its_mother_at_Queen_Elizabeth_National_Park_Photo_by_Giles_Laurent.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/queen-elizabeth-royal-tour-1.jpg",
+          "alt": "Canoes at the Kazinga Channel in Kasese district in western Uganda 09",
+          "credit": {
+            "title": "Canoes at the Kazinga Channel in Kasese district in western Uganda 09",
+            "artist": "B722N",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Canoes_at_the_Kazinga_Channel_in_Kasese_district_in_western_Uganda_09.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/queen-elizabeth-royal-tour-2.jpg",
+          "alt": "Kyambura Gorge in Kasese western Uganda",
+          "credit": {
+            "title": "Kyambura Gorge in Kasese western Uganda",
+            "artist": "Jim Joel",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kyambura_Gorge_in_Kasese_western_Uganda.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/queen-elizabeth-royal-tour-3.jpg",
+          "alt": "Tree-climbing lions (Panthera leo)",
+          "credit": {
+            "title": "Tree-climbing lions (Panthera leo)",
+            "artist": "Charles J. Sharp",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tree-climbing_lions_(Panthera_leo).jpg"
+          }
+        }
+      ]
+    },
+    "murchison-falls-nile-safari": {
+      "file": "/images/tours/murchison-falls-nile-safari.jpg",
+      "credit": {
+        "title": "Murchison Falls, Uganda 03",
+        "artist": "NANTUMBWEJ",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Murchison_Falls,_Uganda_03.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/murchison-falls-nile-safari-1.jpg",
+          "alt": "Uganda's Iconic Shoebill Stork in Mabamba Wetland",
+          "credit": {
+            "title": "Uganda's Iconic Shoebill Stork in Mabamba Wetland",
+            "artist": "Sjoerdug",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uganda%27s_Iconic_Shoebill_Stork_in_Mabamba_Wetland.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/murchison-falls-nile-safari-2.jpg",
+          "alt": "An elephant in Queen Elizabeth National Park in Uganda 01",
+          "credit": {
+            "title": "An elephant in Queen Elizabeth National Park in Uganda 01",
+            "artist": "Kateregga1",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:An_elephant_in_Queen_Elizabeth_National_Park_in_Uganda_01.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/murchison-falls-nile-safari-3.jpg",
+          "alt": "Uganda. Victoria Nile. Immediately below the Murchison Falls LOC matpc.17539",
+          "credit": {
+            "title": "Uganda. Victoria Nile. Immediately below the Murchison Falls LOC matpc.17539",
+            "artist": "Matson Collection",
+            "license": "Public domain",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uganda._Victoria_Nile._Immediately_below_the_Murchison_Falls_LOC_matpc.17539.jpg"
+          }
+        }
+      ]
+    },
+    "murchison-falls-helicopter-bush-dinner": {
+      "file": "/images/tours/murchison-falls-helicopter-bush-dinner.jpg",
+      "credit": {
+        "title": "Sunset Over Murchison Falls National Park15",
+        "artist": "BMKME",
+        "license": "CC0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunset_Over_Murchison_Falls_National_Park15.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/murchison-falls-helicopter-bush-dinner-1.jpg",
+          "alt": "Murchison Falls, Uganda 07",
+          "credit": {
+            "title": "Murchison Falls, Uganda 07",
+            "artist": "NANTUMBWEJ",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Murchison_Falls,_Uganda_07.jpg"
+          }
+        }
+      ]
+    },
+    "lake-bunyonyi-island-hopping": {
+      "file": "/images/tours/lake-bunyonyi-island-hopping.jpg",
+      "credit": {
+        "title": "Pied kingfisher (Ceryle rudis) - Lake Bunyonyi 11",
+        "artist": "Thomas Fuhrmann",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pied_kingfisher_(Ceryle_rudis)_-_Lake_Bunyonyi_11.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/lake-bunyonyi-island-hopping-2.jpg",
+          "alt": "The punishment island on Lake Bunyonyi in Kabale District in Western Uganda 02",
+          "credit": {
+            "title": "The punishment island on Lake Bunyonyi in Kabale District in Western Uganda 02",
+            "artist": "BalukuBrian",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_punishment_island_on_Lake_Bunyonyi_in_Kabale_District_in_Western_Uganda_02.jpg"
+          }
+        }
+      ]
+    },
+    "jinja-nile-rafting-ziwa-rhino": {
+      "file": "/images/tours/jinja-nile-rafting-ziwa-rhino.jpg",
+      "credit": {
+        "title": "River Nile, Jinja, Uganda 3",
+        "artist": "Owobusingye",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:River_Nile,_Jinja,_Uganda_3.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/jinja-nile-rafting-ziwa-rhino-1.jpg",
+          "alt": "Best guied rafting in uganda with kiira rafting",
+          "credit": {
+            "title": "Best guied rafting in uganda with kiira rafting",
+            "artist": "Ypstudio",
+            "license": "CC0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Best_guied_rafting_in_uganda_with_kiira_rafting.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/jinja-nile-rafting-ziwa-rhino-2.jpg",
+          "alt": "Source of the Nile - Jinja, Uganda",
+          "credit": {
+            "title": "Source of the Nile - Jinja, Uganda",
+            "artist": "Daniel Aufgang",
+            "license": "CC BY 3.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Source_of_the_Nile_-_Jinja,_Uganda_(181090963).jpg"
+          }
+        },
+        {
+          "file": "/images/tours/jinja-nile-rafting-ziwa-rhino-3.jpg",
+          "alt": "White Rhinos at Ziwa Rhino Sanctuary in Uganda, August 2025",
+          "credit": {
+            "title": "White Rhinos at Ziwa Rhino Sanctuary in Uganda, August 2025",
+            "artist": "Abdushariff Muhumuza",
+            "license": "CC BY 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_Rhinos_at_Ziwa_Rhino_Sanctuary_in_Uganda,_August_2025.jpg"
+          }
+        }
+      ]
+    },
+    "white-water-rafting-nile-jinja": {
+      "file": "/images/tours/white-water-rafting-nile-jinja.jpg",
+      "credit": {
+        "title": "Rafting at the River Nile in Uganda 2",
+        "artist": "Owobusingye",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rafting_at_the_River_Nile_in_Uganda_2.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/white-water-rafting-nile-jinja-1.jpg",
+          "alt": "RAFTING ON THE SOURCE OF THE NILE 02",
+          "credit": {
+            "title": "RAFTING ON THE SOURCE OF THE NILE 02",
+            "artist": "LAKATO SAFARIS",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:RAFTING_ON_THE_SOURCE_OF_THE_NILE_02.jpg"
+          }
+        }
+      ]
+    },
+    "rwenzori-mountains-margherita-hut-trek": {
+      "file": "/images/tours/rwenzori-mountains-margherita-hut-trek.jpg",
+      "credit": {
+        "title": "Rwenzori night Kitasamba",
+        "artist": "Rafał Kozubek",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rwenzori_night_Kitasamba.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/rwenzori-mountains-margherita-hut-trek-1.jpg",
+          "alt": "Duck on Lake Mahoma in Rwenzori",
+          "credit": {
+            "title": "Duck on Lake Mahoma in Rwenzori",
+            "artist": "Vincent Mugaba",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Duck_on_Lake_Mahoma_in_Rwenzori.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/rwenzori-mountains-margherita-hut-trek-2.jpg",
+          "alt": "Rwenzori mountains FP",
+          "credit": {
+            "title": "Rwenzori mountains FP",
+            "artist": "Ingo Wölbern",
+            "license": "Public domain",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rwenzori_mountains_FP.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/rwenzori-mountains-margherita-hut-trek-3.jpg",
+          "alt": "Stanley Plateau glacier Alexandra Margherita",
+          "credit": {
+            "title": "Stanley Plateau glacier Alexandra Margherita",
+            "artist": "Rafał Kozubek",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stanley_Plateau_glacier_Alexandra_Margherita.jpg"
+          }
+        }
+      ]
+    },
+    "kampala-city-cultural-tour": {
+      "file": "/images/tours/kampala-city-cultural-tour.jpg",
+      "credit": {
+        "title": "Kampala Kasubi Tombs",
+        "artist": "not not phil from SF, CA, US",
+        "license": "CC BY-SA 2.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kampala_Kasubi_Tombs.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/kampala-city-cultural-tour-1.jpg",
+          "alt": "Tombs of Buganda Kings at Kasubi-114327",
+          "credit": {
+            "title": "Tombs of Buganda Kings at Kasubi-114327",
+            "artist": "Lazare Eloundou Assomo",
+            "license": "CC BY-SA 3.0 igo",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tombs_of_Buganda_Kings_at_Kasubi-114327.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/kampala-city-cultural-tour-2.jpg",
+          "alt": "Uganda Police Museum building",
+          "credit": {
+            "title": "Uganda Police Museum building",
+            "artist": "Micheal Kaluba",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Uganda_Police_Museum_building.jpg"
+          }
+        }
+      ]
+    },
+    "mountain-gorilla-trekking-bwindi": {
+      "file": "/images/tours/mountain-gorilla-trekking-bwindi.jpg",
+      "credit": {
+        "title": "Mountain gorilla (Gorilla beringei beringei) female eating root",
+        "artist": "Charles J. Sharp",
+        "license": "CC BY-SA 4.0",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mountain_gorilla_(Gorilla_beringei_beringei)_female_eating_root.jpg"
+      },
+      "gallery": [
+        {
+          "file": "/images/tours/mountain-gorilla-trekking-bwindi-1.jpg",
+          "alt": "Gorila de montaña (Gorilla beringei beringei), parque nacional de la Selva Impenetrable de Bwindi, Uganda, 2024-02-02, DD 80",
+          "credit": {
+            "title": "Gorila de montaña (Gorilla beringei beringei), parque nacional de la Selva Impenetrable de Bwindi, Uganda, 2024-02-02, DD 80",
+            "artist": "Diego Delso",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gorila_de_monta%C3%B1a_(Gorilla_beringei_beringei),_parque_nacional_de_la_Selva_Impenetrable_de_Bwindi,_Uganda,_2024-02-02,_DD_80.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/mountain-gorilla-trekking-bwindi-2.jpg",
+          "alt": "064 Mountain gorilla climbing a tree at Bwindi Impenetrable Forest National Park (crop) Photo by Giles Laurent",
+          "credit": {
+            "title": "064 Mountain gorilla climbing a tree at Bwindi Impenetrable Forest National Park (crop) Photo by Giles Laurent",
+            "artist": "Giles Laurent",
+            "license": "CC BY-SA 4.0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:064_Mountain_gorilla_climbing_a_tree_at_Bwindi_Impenetrable_Forest_National_Park_(crop)_Photo_by_Giles_Laurent.jpg"
+          }
+        },
+        {
+          "file": "/images/tours/mountain-gorilla-trekking-bwindi-3.jpg",
+          "alt": "Gorilla Family",
+          "credit": {
+            "title": "Gorilla Family",
+            "artist": "Thecodemachine",
+            "license": "CC0",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gorilla_Family.jpg"
+          }
+        }
+      ]
+    }
+  }
+}
