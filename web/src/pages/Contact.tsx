@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ApiClientError, request } from '../api/client';
 import { Icon } from '../components/Icon';
@@ -83,6 +84,15 @@ export function Contact() {
             </div>
           ) : (
             <form onSubmit={submit} className="card p-6 md:p-8">
+              <p className="mb-6 rounded-xl bg-forest-50 px-4 py-3 text-sm leading-relaxed text-forest-700/75">
+                <strong className="font-semibold text-forest-900">Booking a specific tour?</strong>{' '}
+                Open the tour and use <em>Request to book</em> — you get a reference number and a
+                reply within one working day.{' '}
+                <Link to="/tours" className="font-semibold text-forest-700 underline underline-offset-2">
+                  Browse tours
+                </Link>
+              </p>
+
               {error && (
                 <div className="mb-6 flex items-start gap-2.5 rounded-xl bg-clay-500/10 px-4 py-3 text-sm text-clay-600">
                   <Icon name="alert" className="mt-0.5 h-4.5 w-4.5 shrink-0" />

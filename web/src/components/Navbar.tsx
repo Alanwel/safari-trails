@@ -66,7 +66,7 @@ export function Navbar() {
             <Icon name="phone" className="h-4 w-4" />
             {site.contact.phone}
           </a>
-          <Link to="/contact" className="btn btn-primary !px-5 !py-2.5">
+          <Link to="/tours" className="btn btn-primary !px-5 !py-2.5">
             Plan a trip
           </Link>
         </div>
@@ -96,7 +96,7 @@ export function Navbar() {
               </NavLink>
             ))}
             <Link
-              to="/contact"
+              to="/tours"
               onClick={() => setOpen(false)}
               className="btn btn-primary mt-3 w-full"
             >

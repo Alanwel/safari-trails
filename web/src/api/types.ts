@@ -151,3 +151,88 @@ export type AdminStats = {
   travellers: number;
   openInquiries: number;
 };
+
+/** A message sent through the contact form, as opposed to a booking request. */
+export type Inquiry = {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+};
+
+/* ---------------------------------------------------------------------------
+ * CMS types — the shapes the admin content API returns.
+ * They are deliberately NOT the public types: the admin list carries counts
+ * and publish state that the public catalogue never exposes.
+ * ------------------------------------------------------------------------- */
+
+export type AdminTourRow = {
+  id: number;
+  slug: string;
+  title: string;
+  summary: string;
+  priceCents: number;
+  currency: string;
+  durationDays: number;
+  difficulty: Difficulty;
+  featured: boolean;
+  published: boolean;
+  coverImage: string | null;
+  rating: number;
+  reviewCount: number;
+  updatedAt: string;
+  destinationId: number;
+  destinationName: string;
+  destinationSlug: string;
+  dayCount: number;
+  imageCount: number;
+  bookingCount: number;
+};
+
+export type AdminTourDetail = {
+  id: number;
+  slug: string;
+  title: string;
+  destinationId: number;
+  summary: string;
+  description: string;
+  priceCents: number;
+  currency: string;
+  durationDays: number;
+  difficulty: Difficulty;
+  groupSizeMax: number;
+  rating: number;
+  reviewCount: number;
+  featured: boolean;
+  published: boolean;
+  coverImage: string | null;
+  imageCredit: ImageCredit | null;
+  highlights: string[];
+  included: string[];
+  excluded: string[];
+  createdAt: string;
+  updatedAt: string;
+  destination: DestinationSummary | null;
+  days: TourDay[];
+  images: TourImage[];
+  bookingCount: number;
+};
+
+export type AdminDestinationRow = {
+  id: number;
+  slug: string;
+  name: string;
+  region: string;
+  tagline: string;
+  description: string;
+  coverImage: string | null;
+  imageCredit: ImageCredit | null;
+  highlights: string[];
+  bestSeason: string | null;
+  averageDays: number | null;
+  published: boolean;
+  tourCount: number;
+  updatedAt: string;
+};

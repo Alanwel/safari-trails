@@ -16,7 +16,7 @@ export const site = {
     'Small-group gorilla trekking, Nile rafting and Rift Valley safaris — planned by people who live here, and run by people who answer the phone.',
 
   contact: {
-    phone: '+256730293345',
+    phone: '+256 730 293 345',
     whatsapp: '256755432091',
     email: 'hello@safaritrails.com',
     address: 'Plot 7, Kampala Road, Kampala, Uganda',

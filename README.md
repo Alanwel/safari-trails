@@ -4,6 +4,9 @@ A travel-tour booking platform for a Ugandan tour operator — public website pl
 an operator dashboard, with a real database, real authentication and a real
 booking flow.
 
+**🟢 Live:** <https://safari-trails-web.vercel.app> · API <https://safari-trails-api.vercel.app>
+**🗄️ Database:** Supabase Postgres `dkuiifymxpbzezjaspef` (eu-west-1)
+
 Built as an npm-workspaces monorepo:
 
 | Layer | Stack |
@@ -12,7 +15,7 @@ Built as an npm-workspaces monorepo:
 | **Database** | Postgres — [Supabase](https://supabase.com) in production, embedded **PGlite** in development |
 | **Web** | React 19 · TypeScript · Vite 8 · Tailwind CSS 4 · React Router 7 |
 | **Hosting** | Vercel (web + API), Supabase (Postgres + Storage) |
-| **Source** | GitHub |
+| **Source** | [github.com/Alanwel/safari-trails](https://github.com/Alanwel/safari-trails) |
 
 ---
 
@@ -194,9 +197,21 @@ Bad input returns **400** with field-level detail; unknown records return
 | `npm run build` | Type-check and build both packages for production |
 | `npm run typecheck` | Type-check both packages |
 | `npm test` | Run the API test suite (38 tests) |
-| `npm run db:reset` | Drop, recreate and reseed the local database |
+| `npm run db:reset` | Drop, recreate and reseed the **local** database |
+| `npm run db:provision` | Apply schema + RLS + seed to a **remote** database |
 | `npm run images` | Fetch photography from Wikimedia Commons |
 | `npm run images:upload` | Upload images to Supabase Storage |
+
+### Deploying in one command
+
+```bash
+DATABASE_URL="postgresql://..." JWT_SECRET="..." ./scripts/deploy-vercel.sh
+```
+
+Creates (or reuses) the `safari-trails-api` and `safari-trails-web` Vercel
+projects, sets every environment variable, deploys both, then points the API's
+`CORS_ORIGIN` at the real web origin and redeploys. Secrets are read from the
+environment and never written to the repository.
 
 ---
 

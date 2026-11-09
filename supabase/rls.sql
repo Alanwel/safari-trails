@@ -88,12 +88,18 @@ create policy "public read reviews"
 -- ---------------------------------------------------------------------------
 -- Grants
 -- ---------------------------------------------------------------------------
+-- Scoped to THIS project's tables only. This database is shared with other
+-- applications, so we must not widen privileges over anything we do not own.
+-- The API writes with the service_role key (which bypasses RLS), so the
+-- browser roles only ever need SELECT.
 grant usage on schema public to anon, authenticated;
-grant select on destinations, tours, tour_days, tour_images, reviews to anon, authenticated;
-grant usage, select on all sequences in schema public to anon, authenticated;
 
--- service_role gets full access (Supabase grants this by default, but be explicit)
-grant all on all tables in schema public to service_role;
+grant select on destinations, tours, tour_days, tour_images, reviews to anon, authenticated;
+
+grant all on destinations, tours, tour_days, tour_images, reviews, bookings, inquiries, admin_users to service_role;
+
+-- Sequences belong to the tables above; the API inserts through service_role,
+-- so the browser roles do not need them.
 grant all on all sequences in schema public to service_role;
 
 -- ---------------------------------------------------------------------------
@@ -108,3 +114,76 @@ create policy "public read tour-images bucket"
   on storage.objects for select
   to anon, authenticated
   using (bucket_id = 'tour-images');
+
+-- ---------------------------------------------------------------------------
+-- CMS image uploads
+-- ---------------------------------------------------------------------------
+-- The API signs in as a low-privilege machine account (`cms@safaritrails.com`)
+-- using the PUBLIC anon key, and writes through the Storage REST API. It does
+-- NOT use the service role key, so a bug in the CMS can reach nothing except
+-- the folder named below.
+--
+-- Three conditions, all required:
+--   1. the object is in the tour-images bucket
+--   2. its first folder is "cms"
+--   3. the signed-in account is exactly the machine account
+--
+-- `auth.email()` reads the JWT, so this needs no table access and therefore
+-- no SECURITY DEFINER helper.
+--
+-- To create the machine account (once):
+--   insert into auth.users (email, encrypted_password, email_confirmed_at, ...)
+--   ... OR use the Supabase dashboard -> Authentication -> Users -> Add user,
+--   then set CMS_STORAGE_PASSWORD on the API to that password.
+--
+-- After that, UPLOADS WORK and everything else stays out of reach.
+do $$
+begin
+  if not exists (select 1 from storage.buckets where id = 'tour-images') then
+    insert into storage.buckets (id, name, public)
+    values ('tour-images', 'tour-images', true);
+  end if;
+end
+$$;
+
+-- Keep the bucket tidy: images are photos, not executables.
+update storage.buckets
+   set file_size_limit = 3145728,          -- 3 MB
+       allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp']
+ where id = 'tour-images';
+
+drop policy if exists "tour images cms upload"   on storage.objects;
+drop policy if exists "tour images cms update"   on storage.objects;
+drop policy if exists "tour images cms delete"   on storage.objects;
+
+create policy "tour images cms upload"
+  on storage.objects for insert
+  to authenticated
+  with check (
+    bucket_id = 'tour-images'
+    and (storage.foldername(name))[1] = 'cms'
+    and (select auth.email()) = 'cms@safaritrails.com'
+  );
+
+create policy "tour images cms update"
+  on storage.objects for update
+  to authenticated
+  using (
+    bucket_id = 'tour-images'
+    and (storage.foldername(name))[1] = 'cms'
+    and (select auth.email()) = 'cms@safaritrails.com'
+  )
+  with check (
+    bucket_id = 'tour-images'
+    and (storage.foldername(name))[1] = 'cms'
+    and (select auth.email()) = 'cms@safaritrails.com'
+  );
+
+create policy "tour images cms delete"
+  on storage.objects for delete
+  to authenticated
+  using (
+    bucket_id = 'tour-images'
+    and (storage.foldername(name))[1] = 'cms'
+    and (select auth.email()) = 'cms@safaritrails.com'
+  );

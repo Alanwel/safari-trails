@@ -50,6 +50,8 @@ def main() -> int:
     parser.add_argument("--base", default="http://localhost:5173")
     parser.add_argument("--out", default="screenshots")
     parser.add_argument("--headed", action="store_true")
+    parser.add_argument("--admin-email", default=os.environ.get("ADMIN_EMAIL", "admin@safaritrails.com"))
+    parser.add_argument("--admin-password", default=os.environ.get("ADMIN_PASSWORD", "SafariTrails2026!"))
     args = parser.parse_args()
 
     out = Path(args.out)
@@ -193,11 +195,32 @@ def main() -> int:
         page.wait_for_timeout(500)
         shot(page, "11-admin-login", full=False)
 
-        page.fill("#admin-email", "admin@safaritrails.com")
-        page.fill("#admin-password", "SafariTrails2026!")
+        page.fill("#admin-email", args.admin_email)
+        page.fill("#admin-password", args.admin_password)
         page.get_by_role("button", name="Sign in").click()
         page.wait_for_timeout(1500)
         assert "Bookings" in page.locator("body").inner_text(), "admin login failed"
+
+        # The dashboard header must appear exactly once. A duplicated header
+        # (two "Sign out" buttons, two <h1>) is invisible to a text dump but
+        # obvious on screen, so assert on the counts.
+        sign_outs = page.get_by_role("button", name="Sign out").count()
+        assert sign_outs == 1, f"expected exactly 1 'Sign out' button, found {sign_outs}"
+        headings = page.locator("h1").count()
+        assert headings == 1, f"expected exactly 1 <h1> in the dashboard, found {headings}"
+
+        # Both tabs must exist, and Messages must actually load rows.
+        page.get_by_role("button", name="Messages").click()
+        page.wait_for_timeout(1200)
+        assert "Messages" in page.locator("h1").inner_text(), "Messages tab did not open"
+        has_rows = page.get_by_role("link", name="Reply").count() > 0
+        has_empty = page.get_by_text("No messages yet").count() > 0
+        assert has_rows or has_empty, (
+            "Messages tab rendered neither enquiry rows nor an empty state"
+        )
+        shot(page, "12b-admin-messages")
+        page.get_by_role("button", name="Bookings").click()
+        page.wait_for_timeout(800)
         shot(page, "12-admin-dashboard")
 
         # ------------------------------------------------------------------

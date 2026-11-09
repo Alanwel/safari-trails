@@ -11,6 +11,33 @@ Supabase    →  your database (Postgres) + image storage
 Vercel      →  two deployments: the API and the website
 ```
 
+> **This is already done for Safari Trails.** The live deployment is
+> <https://safari-trails-web.vercel.app> with the API on
+> <https://safari-trails-api.vercel.app> and the database on Supabase project
+> `dkuiifymxpbzezjaspef` (region eu-west-1). The steps below are how it was
+> done, and how to redeploy or rebuild it somewhere else.
+
+---
+
+## The fast path
+
+If you are deploying this same project again (or to a new account), you do not
+need to click through the dashboard. One script does everything:
+
+```bash
+vercel login      # device-code flow, no token needed
+
+DATABASE_URL="postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:6543/postgres" \
+JWT_SECRET="$(node -e 'console.log(require("crypto").randomBytes(48).toString("hex"))')" \
+./scripts/deploy-vercel.sh
+```
+
+It creates both Vercel projects, sets every environment variable, deploys the
+API, deploys the web app with `VITE_API_URL` already pointing at the API, then
+tightens the API's `CORS_ORIGIN` to the real web origin and redeploys.
+
+The long version follows.
+
 ---
 
 ## 1. Push to GitHub
@@ -71,13 +98,17 @@ From your machine, with the connection string in the environment:
 
 ```bash
 cd api
-DATABASE_URL="postgresql://postgres.xxxx:YOUR_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres" \
-  npm run db:seed
+DATABASE_URL="postgresql://postgres.abcdefghijkl:YOUR_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres" \
+  npm run db:provision
 ```
 
-The seeder wipes the content tables and loads the catalogue. It also creates
-the admin account using `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `api/.env` —
-**set those to production values first**.
+`db:provision` applies `schema.sql`, applies `rls.sql`, seeds the catalogue,
+prints a row count for every table, and exits. It refuses to run without a
+`DATABASE_URL` — the local database is `npm run db:reset` instead, which
+refuses to run *with* one. Neither can clobber the other by accident.
+
+The seeder also creates the admin account using `ADMIN_EMAIL` / `ADMIN_PASSWORD`
+from `api/.env` — **set those to production values first**.
 
 ### 2.5 Move the images to Supabase Storage
 

@@ -277,7 +277,7 @@ export function Home() {
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link to="/contact" className="btn btn-accent">
-              Start planning
+              Send an enquiry
             </Link>
             <a
               href={`tel:${site.contact.phone.replace(/\s/g, '')}`}

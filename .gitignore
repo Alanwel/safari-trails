@@ -38,3 +38,9 @@ yarn-error.log*
 # Verification output (both dev and production runs)
 screenshots/
 screenshots-prod/
+
+# Live verification screenshots
+screenshots-live/
+
+# Vercel CLI link folder
+.vercel/
