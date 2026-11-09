@@ -121,7 +121,7 @@ export function Admin() {
                   autoComplete="username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@safaritrails.com"
+                  placeholder="Alanwel32@gmail.com"
                 />
               </div>
               <div>
@@ -150,12 +150,6 @@ export function Admin() {
                 )}
               </button>
             </form>
-
-            <p className="mt-6 border-t border-sand-200 pt-4 text-xs leading-relaxed text-forest-700/55">
-              Seeded credentials are in <code>api/.env</code> (
-              <code>ADMIN_EMAIL</code> / <code>ADMIN_PASSWORD</code>). Change them before
-              deploying.
-            </p>
           </div>
         </div>
       </div>
