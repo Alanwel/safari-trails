@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { asc, count, eq } from 'drizzle-orm';
+import { asc, and, eq, sql } from 'drizzle-orm';
 
 import { getDb } from '../db/client.js';
 import { destinations, tours } from '../db/schema.js';
@@ -26,10 +26,11 @@ destinationsRouter.get(
         highlights: destinations.highlights,
         bestSeason: destinations.bestSeason,
         averageDays: destinations.averageDays,
-        tourCount: count(tours.id),
+        tourCount: sql<number>`count(*) filter (where ${tours.published} = true)`,
       })
       .from(destinations)
       .leftJoin(tours, eq(tours.destinationId, destinations.id))
+      .where(eq(destinations.published, true))
       .groupBy(destinations.id)
       .orderBy(asc(destinations.name));
 
@@ -47,7 +48,7 @@ destinationsRouter.get(
     const [destination] = await db
       .select()
       .from(destinations)
-      .where(eq(destinations.slug, slug))
+      .where(and(eq(destinations.slug, slug), eq(destinations.published, true)))
       .limit(1);
 
     if (!destination) throw ApiError.notFound(`No destination called "${slug}"`);
@@ -68,7 +69,7 @@ destinationsRouter.get(
         featured: tours.featured,
       })
       .from(tours)
-      .where(eq(tours.destinationId, destination.id))
+      .where(and(eq(tours.destinationId, destination.id), eq(tours.published, true)))
       .orderBy(asc(tours.priceCents));
 
     return sendSuccess(res, {

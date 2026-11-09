@@ -60,9 +60,15 @@ export const destinations = pgTable(
     highlights: jsonb('highlights').$type<string[]>().notNull().default(sql`'[]'::jsonb`),
     bestSeason: text('best_season'),
     averageDays: integer('average_days'),
+    /** CMS state: false = a draft that the public API will not serve. */
+    published: boolean('published').notNull().default(true),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [uniqueIndex('destinations_slug_idx').on(t.slug)],
+  (t) => [
+    uniqueIndex('destinations_slug_idx').on(t.slug),
+    index('destinations_published_idx').on(t.published),
+  ],
 );
 
 export const tours = pgTable(
@@ -90,7 +96,10 @@ export const tours = pgTable(
     highlights: jsonb('highlights').$type<string[]>().notNull().default(sql`'[]'::jsonb`),
     included: jsonb('included').$type<string[]>().notNull().default(sql`'[]'::jsonb`),
     excluded: jsonb('excluded').$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+    /** CMS state: false = a draft that the public API will not serve. */
+    published: boolean('published').notNull().default(true),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [
     uniqueIndex('tours_slug_idx').on(t.slug),
@@ -98,6 +107,7 @@ export const tours = pgTable(
     index('tours_featured_idx').on(t.featured),
     index('tours_price_idx').on(t.priceCents),
     index('tours_duration_idx').on(t.durationDays),
+    index('tours_published_idx').on(t.published),
   ],
 );
 

@@ -7,7 +7,7 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 
-import { requestWithMeta } from './client';
+import { ApiClientError, requestWithMeta } from './client';
 
 export type ApiState<T> = {
   data: T | null;
@@ -19,9 +19,9 @@ export type ApiState<T> = {
 
 export function useApi<T>(
   path: string | null,
-  options: { token?: string } = {},
+  options: { token?: string; onUnauthorized?: () => void } = {},
 ): ApiState<T> & { refetch: () => void } {
-  const { token } = options;
+  const { token, onUnauthorized } = options;
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: Boolean(path),
@@ -46,15 +46,20 @@ export function useApi<T>(
         if (!cancelled) setState({ data, loading: false, error: null, meta });
       })
       .catch((err: Error) => {
-        if (!cancelled) {
-          setState({ data: null, loading: false, error: err.message, meta: null });
+        if (cancelled) return;
+        // A 401 means the session is gone (expired, or the signing secret
+        // changed). Tell whoever is watching, so they can send the operator
+        // back to the sign-in form instead of leaving them on a dead panel.
+        if (err instanceof ApiClientError && err.status === 401) {
+          onUnauthorized?.();
         }
+        setState({ data: null, loading: false, error: err.message, meta: null });
       });
 
     return () => {
       cancelled = true;
     };
-  }, [path, token, nonce]);
+  }, [path, token, nonce, onUnauthorized]);
 
   const refetch = useCallback(() => setNonce((n) => n + 1), []);
 

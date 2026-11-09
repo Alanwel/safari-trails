@@ -68,6 +68,9 @@ toursRouter.get(
 
     const filters: (SQL | undefined)[] = [];
 
+    // Drafts exist only for the CMS. The public catalogue never shows them.
+    filters.push(eq(tours.published, true));
+
     if (query.q) {
       const needle = `%${query.q}%`;
       filters.push(
@@ -182,6 +185,7 @@ toursRouter.get(
         maxDays: tours.durationDays,
       })
       .from(tours)
+      .where(eq(tours.published, true))
       .limit(1);
 
     const all = await db
@@ -190,7 +194,8 @@ toursRouter.get(
         durationDays: tours.durationDays,
         difficulty: tours.difficulty,
       })
-      .from(tours);
+      .from(tours)
+      .where(eq(tours.published, true));
 
     const prices = all.map((t) => t.priceCents);
     const durations = all.map((t) => t.durationDays);
@@ -203,7 +208,7 @@ toursRouter.get(
         slug: destinations.slug,
         name: destinations.name,
         region: destinations.region,
-        tourCount: count(tours.id),
+        tourCount: sql<number>`count(*) filter (where ${tours.published} = true)`,
       })
       .from(destinations)
       .leftJoin(tours, eq(tours.destinationId, destinations.id))
@@ -235,7 +240,7 @@ toursRouter.get(
     const [tour] = await db
       .select()
       .from(tours)
-      .where(eq(tours.slug, slug))
+      .where(and(eq(tours.slug, slug), eq(tours.published, true)))
       .limit(1);
 
     if (!tour) throw ApiError.notFound(`No tour called "${slug}"`);
@@ -290,7 +295,7 @@ toursRouter.get(
       })
       .from(tours)
       .innerJoin(destinations, eq(tours.destinationId, destinations.id))
-      .where(eq(tours.destinationId, tour.destinationId))
+      .where(and(eq(tours.destinationId, tour.destinationId), eq(tours.published, true)))
       .orderBy(asc(tours.priceCents))
       .limit(5);
 
@@ -320,7 +325,7 @@ toursRouter.get(
         })
         .from(tours)
         .innerJoin(destinations, eq(tours.destinationId, destinations.id))
-        .where(sql`${tours.slug} <> ${slug}`)
+        .where(and(sql`${tours.slug} <> ${slug}`, eq(tours.published, true)))
         .orderBy(desc(tours.featured), desc(tours.rating))
         .limit(6);
 

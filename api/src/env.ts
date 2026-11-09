@@ -31,6 +31,13 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().optional().default(''),
   SUPABASE_ANON_KEY: z.string().optional().default(''),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional().default(''),
+
+  /**
+   * Password of the low-privilege machine account the API signs in as to
+   * upload images. Deliberately NOT the service role key — see
+   * src/lib/storage.ts for why least privilege wins here.
+   */
+  CMS_STORAGE_PASSWORD: z.string().optional().default(''),
 });
 
 const parsed = envSchema.safeParse(process.env);

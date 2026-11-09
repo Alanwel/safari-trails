@@ -54,7 +54,10 @@ create table if not exists destinations (
   highlights     jsonb       not null default '[]'::jsonb,
   best_season    text,
   average_days   integer,
-  created_at     timestamptz not null default now()
+  -- CMS state: a destination can be written but not yet shown to the public.
+  published      boolean     not null default true,
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
 );
 
 create index if not exists destinations_slug_idx on destinations (slug);
@@ -82,7 +85,10 @@ create table if not exists tours (
   highlights      jsonb       not null default '[]'::jsonb,
   included        jsonb       not null default '[]'::jsonb,
   excluded        jsonb       not null default '[]'::jsonb,
-  created_at      timestamptz not null default now()
+  -- CMS state: a tour can be written but not yet shown to the public.
+  published       boolean     not null default true,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
 );
 
 create index if not exists tours_slug_idx           on tours (slug);
@@ -91,6 +97,25 @@ create index if not exists tours_featured_idx       on tours (featured);
 create index if not exists tours_price_idx          on tours (price_cents);
 create index if not exists tours_duration_idx       on tours (duration_days);
 create index if not exists tours_difficulty_idx     on tours (difficulty);
+
+-- ---------------------------------------------------------------------------
+-- Migrations
+-- ---------------------------------------------------------------------------
+-- The tables above are created with `if not exists`, so re-running this file
+-- on an EXISTING database would NOT add a column that was added later. These
+-- statements are the migration path for databases created before the CMS
+-- existed, and they are no-ops on a fresh one.
+--
+-- They must come AFTER the create-table statements but BEFORE any index that
+-- uses the new columns — Postgres resolves an index's column list the moment
+-- the index is created.
+alter table destinations add column if not exists published   boolean     not null default true;
+alter table destinations add column if not exists updated_at timestamptz not null default now();
+alter table tours        add column if not exists published   boolean     not null default true;
+alter table tours        add column if not exists updated_at timestamptz not null default now();
+
+create index if not exists destinations_published_idx on destinations (published);
+create index if not exists tours_published_idx      on tours (published);
 
 -- ---------------------------------------------------------------------------
 -- tour_days  (day-by-day itinerary)

@@ -20,6 +20,7 @@ import { bookingsRouter } from './routes/bookings.js';
 import { inquiriesRouter } from './routes/inquiries.js';
 import { authRouter } from './routes/auth.js';
 import { adminRouter } from './routes/admin.js';
+import { adminContentRouter } from './routes/admin-content.js';
 
 const corsOptions: CorsOptions = {
   origin(origin, callback) {
@@ -92,8 +93,16 @@ export function createApp(): Express {
   app.use('/api/tours', toursRouter);
   app.use('/api/bookings', writeLimiter, bookingsRouter);
   app.use('/api/inquiries', writeLimiter, inquiriesRouter);
-  app.use('/api/auth', writeLimiter, authRouter);
+  // The limiter belongs to the LOGIN route only. Putting it on the whole
+  // /api/auth router throttled GET /api/auth/me as well — and the admin
+  // panel calls that on every page, so a few minutes of admin work would
+  // lock the operator out of their own dashboard.
+  app.use('/api/auth/login', writeLimiter);
+  app.use('/api/auth', authRouter);
   app.use('/api/admin', adminRouter);
+  // The CMS routes live under the same prefix as the operations routes, so
+  // both are behind one `requireAdmin` check in one place.
+  app.use('/api/admin', adminContentRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

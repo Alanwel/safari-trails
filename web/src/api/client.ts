@@ -90,6 +90,16 @@ export function toQuery(params: Record<string, string | number | boolean | undef
 }
 
 /**
+ * The absolute URL of an API path.
+ *
+ * Needed when the request body is NOT JSON — the image uploader posts raw
+ * bytes, so it cannot go through `request()`.
+ */
+export function apiUrl(path: string): string {
+  return `${API_BASE}${path}`;
+}
+
+/**
  * Turn a stored image path into a URL the browser can load.
  *
  * The API stores `/images/tours/foo.jpg` (a path relative to the web app).
@@ -104,12 +114,25 @@ export function resolveImage(url?: string | null): string | undefined {
   return `${base.endsWith('/') ? base : `${base}/`}${url.replace(/^\//, '')}`;
 }
 
+/**
+ * How many minor units make one major unit.
+ *
+ * Prices are stored in minor units (cents) so no arithmetic ever touches a
+ * float. Currencies with no minor unit — the Ugandan shilling, for one —
+ * store whole shillings.
+ */
+const MINOR_UNITS: Record<string, number> = { UGX: 1, KES: 1, TZS: 1 };
+
+export function minorUnits(currency = 'USD'): number {
+  return MINOR_UNITS[currency] ?? 100;
+}
+
 export function formatMoney(cents: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
+    maximumFractionDigits: minorUnits(currency) === 1 ? 0 : 0,
+  }).format(cents / minorUnits(currency));
 }
 
 export function formatDate(value: string): string {

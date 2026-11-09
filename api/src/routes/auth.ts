@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import { getDb } from '../db/client.js';
 import { adminUsers } from '../db/schema.js';
 import { ApiError, asyncHandler, sendSuccess } from '../lib/http.js';
-import { signAdminToken } from '../middleware/auth.js';
+import { requireAdmin, signAdminToken } from '../middleware/auth.js';
 
 export const authRouter = Router();
 
@@ -49,6 +49,34 @@ authRouter.post(
     return sendSuccess(res, {
       token,
       admin: { name: admin.name, email: admin.email, role: admin.role },
+    });
+  }),
+);
+
+/**
+ * GET /api/auth/me — who am I?
+ *
+ * The JWT already carries the operator's identity, so this needs no database
+ * round trip: the token IS the answer. It exists so the admin panel can show
+ * a name after a page reload, when the in-memory login response is gone.
+ */
+authRouter.get(
+  '/me',
+  requireAdmin,
+  asyncHandler(async (req, res) => {
+    // `requireAdmin` guarantees this, but the type of `req.admin` is optional
+    // because Express cannot know which middleware ran. Check rather than
+    // assert with `!`.
+    const admin = req.admin;
+    if (!admin) throw ApiError.unauthorized('Sign in to continue');
+
+    return sendSuccess(res, {
+      admin: {
+        id: Number(admin.sub),
+        email: admin.email,
+        name: admin.name,
+        role: admin.role,
+      },
     });
   }),
 );
