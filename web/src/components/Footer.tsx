@@ -148,7 +148,7 @@ export function Footer() {
             >
               Wikimedia Commons
             </a>
-            , used under Creative Commons licences. developed with 😘 
+            , used under Creative Commons licences. developed with 😘  Alan
           </p>
         </div>
       </div>
