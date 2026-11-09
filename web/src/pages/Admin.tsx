@@ -16,8 +16,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { ApiClientError, formatDate, formatMoney, request } from '../api/client';
+import { ApiClientError, formatDate, formatMoney } from '../api/client';
 import { useAdminApi } from '../admin/useAdminApi';
+import { useAdminRequest } from '../admin/useAdminRequest';
 import type { AdminStats, Booking, BookingStatus, Inquiry } from '../api/types';
 import { AdminLogin, useAdminAuth } from '../admin/AdminAuth';
 import { DestinationsTab } from '../admin/DestinationsTab';
@@ -83,10 +84,15 @@ export function Admin() {
     token && view === 'messages' ? '/api/admin/inquiries' : null,
   );
 
+  // Every admin WRITE goes through useAdminRequest(), which attaches the
+  // token. The plain `request()` helper does not — and a write without the
+  // token comes back as "Sign in to continue" to somebody who IS signed in.
+  const adminRequest = useAdminRequest();
+
   const setBookingStatus = async (reference: string, status: BookingStatus) => {
     setUpdating(reference);
     try {
-      await request(`/api/admin/bookings/${reference}`, {
+      await adminRequest(`/api/admin/bookings/${reference}`, {
         method: 'PATCH',
         body: JSON.stringify({ status }),
       });

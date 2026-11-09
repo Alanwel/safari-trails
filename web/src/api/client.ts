@@ -35,6 +35,14 @@ type Envelope<T> = {
   meta: Record<string, unknown>;
 };
 
+/**
+ * A plain request. It does NOT attach an admin token.
+ *
+ * For anything under /api/admin use `useAdminRequest()` instead — it adds
+ * the `Authorization` header for you. A missing header comes back as
+ * "Sign in to continue", which is very confusing when the operator IS
+ * signed in.
+ */
 export async function request<T>(
   path: string,
   options: RequestInit = {},
