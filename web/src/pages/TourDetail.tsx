@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { formatMoney } from '../api/client';
+import { useSeo, SITE_URL, type JsonLd } from '../seo/useSeo';
 import { useApi } from '../api/hooks';
 import type { TourDetail as TourDetailType } from '../api/types';
 import { BookingModal } from '../components/BookingModal';
@@ -26,6 +27,111 @@ export function TourDetail() {
   const { data: tour, loading, error, refetch } = useApi<TourDetailType>(
     slug ? `/api/tours/${slug}` : null,
   );
+
+  // The SEO tags depend on the tour, which arrives after the first render.
+  // They live in their own component so the hook always runs — a hook after
+  // an early `return` breaks the rules of React.
+  return (
+    <>
+      <TourSeo tour={tour} slug={slug ?? ''} />
+      <TourDetailBody
+        tour={tour}
+        loading={loading}
+        error={error}
+        refetch={refetch}
+        bookingOpen={bookingOpen}
+        setBookingOpen={setBookingOpen}
+        activeDay={activeDay}
+        setActiveDay={setActiveDay}
+      />
+    </>
+  );
+}
+
+/** Title, description, canonical URL and the structured data for one tour. */
+function TourSeo({ tour, slug }: { tour: TourDetailType | null; slug: string }) {
+  const jsonLd: JsonLd[] | undefined = tour
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'TouristTrip',
+          name: tour.title,
+          description: tour.summary,
+          url: `${SITE_URL}/tours/${tour.slug}`,
+          image: tour.coverImage ?? tour.images?.[0]?.url,
+          touristType: 'Safari Tours',
+          itinerary: {
+            '@type': 'ItemList',
+            numberOfItems: tour.days?.length ?? 0,
+            itemListElement: (tour.days ?? []).map((day) => ({
+              '@type': 'ListItem',
+              position: day.dayNumber,
+              item: {
+                '@type': 'TouristAttraction',
+                name: day.title,
+                description: day.description,
+              },
+            })),
+          },
+          offers: {
+            '@type': 'Offer',
+            price: (tour.priceCents / 100).toFixed(2),
+            priceCurrency: tour.currency,
+            availability: 'https://schema.org/InStock',
+            url: `${SITE_URL}/tours/${tour.slug}`,
+          },
+          aggregateRating: tour.reviewCount
+            ? {
+                '@type': 'AggregateRating',
+                ratingValue: tour.rating,
+                reviewCount: tour.reviewCount,
+              }
+            : undefined,
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+            { '@type': 'ListItem', position: 2, name: 'Tours', item: `${SITE_URL}/tours` },
+            { '@type': 'ListItem', position: 3, name: tour.title, item: `${SITE_URL}/tours/${tour.slug}` },
+          ],
+        },
+      ]
+    : undefined;
+
+  useSeo({
+    title: tour
+      ? `${tour.title} — ${tour.durationDays} days in ${tour.destination?.name ?? 'Uganda'} | Safari Trails`
+      : 'Safari Trails',
+    description: tour?.summary ?? 'Small-group tours across Uganda, run by people who live here.',
+    path: `/tours/${slug}`,
+    image: tour?.coverImage ?? null,
+    type: 'article',
+    jsonLd,
+  });
+  return null;
+}
+
+function TourDetailBody({
+  tour,
+  loading,
+  error,
+  refetch,
+  bookingOpen,
+  setBookingOpen,
+  activeDay,
+  setActiveDay,
+}: {
+  tour: TourDetailType | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => void;
+  bookingOpen: boolean;
+  setBookingOpen: (v: boolean) => void;
+  activeDay: number | null;
+  setActiveDay: (v: number | null) => void;
+}) {
 
   if (loading) {
     return (

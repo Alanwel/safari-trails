@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useApi } from '../api/hooks';
 import type { DestinationSummary, TourSummary } from '../api/types';
+import { useSeo, organizationJsonLd } from '../seo/useSeo';
 import { Icon } from '../components/Icon';
 import { Reveal } from '../components/Reveal';
 import { SectionHeading } from '../components/States';
@@ -13,6 +14,14 @@ import { site } from '../data/site';
 const HERO_IMAGE = '/images/tours/mountain-gorilla-trekking-bwindi.jpg';
 
 export function Home() {
+  useSeo({
+    title: 'Safari Trails — small-group gorilla trekking, Nile rafting & Rift Valley safaris in Uganda',
+    description:
+      'Small-group gorilla trekking, Nile rafting and Rift Valley safaris — planned by people who live here, and run by people who answer the phone. Browse Uganda tours and book directly.',
+    path: '/',
+    jsonLd: organizationJsonLd(),
+  });
+
   const navigate = useNavigate();
   const [destination, setDestination] = useState('');
 

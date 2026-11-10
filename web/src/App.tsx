@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Admin } from './pages/Admin';
 import { AdminTour } from './pages/AdminTour';
 import { Contact } from './pages/Contact';
+import { About, Privacy, Terms } from './pages/Static';
 import { DestinationDetail } from './pages/DestinationDetail';
 import { Destinations } from './pages/Destinations';
 import { Home } from './pages/Home';
@@ -35,6 +36,9 @@ export function App() {
           <Route path="/destinations" element={<Destinations />} />
           <Route path="/destinations/:slug" element={<DestinationDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           {/*
             The admin screens share one auth provider, so signing in on one
             page keeps the token on the next.

@@ -1,0 +1,17 @@
+# Safari Trails — https://safaritrails.com
+#
+# The admin dashboard must never be crawled. It sits behind a login, so
+# crawling it wastes crawl budget on pages nobody will ever see in results.
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+
+# AdSense reads this file to find out who is allowed to serve ads here.
+# It is not required for approval, but it is the first thing to check when
+# ads do not appear. (The AdSense dashboard gives you the exact line.)
+# User-agent: Mediapartners-Google
+# Disallow:
+
+Sitemap: https://safari-trails-web.vercel.app/sitemap.xml

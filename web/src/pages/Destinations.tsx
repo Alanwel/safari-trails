@@ -1,10 +1,18 @@
 import { useApi } from '../api/hooks';
+import { useSeo } from '../seo/useSeo';
 import type { DestinationSummary } from '../api/types';
 import { DestinationCard } from '../components/DestinationCard';
 import { Reveal } from '../components/Reveal';
 import { ErrorState, SectionHeading } from '../components/States';
 
 export function Destinations() {
+  useSeo({
+    title: 'Where to go in Uganda — Bwindi, Kibale, Murchison, Bunyonyi, Rwenzori',
+    description:
+      'The seven places that make Uganda worth the trip: Bwindi Impenetrable Forest, Queen Elizabeth, Murchison Falls, Lake Bunyonyi, the Rwenzori and more.',
+    path: '/destinations',
+  });
+
   const { data, loading, error, refetch } = useApi<DestinationSummary[]>('/api/destinations');
 
   return (

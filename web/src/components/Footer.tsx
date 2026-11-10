@@ -71,6 +71,21 @@ export function Footer() {
                 Top rated tours
               </Link>
             </li>
+            <li>
+              <Link to="/about" className="text-sand-200/75 transition-colors hover:text-ochre-400">
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" className="text-sand-200/75 transition-colors hover:text-ochre-400">
+                Privacy policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/terms" className="text-sand-200/75 transition-colors hover:text-ochre-400">
+                Terms of use
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -148,7 +163,7 @@ export function Footer() {
             >
               Wikimedia Commons
             </a>
-            , used under Creative Commons licences. developed with 😘  Alan
+            , used under Creative Commons licences. developed with 😘 
           </p>
         </div>
       </div>

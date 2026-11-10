@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ApiClientError, request } from '../api/client';
+import { useSeo } from '../seo/useSeo';
 import { Icon } from '../components/Icon';
 import { Reveal } from '../components/Reveal';
 import { SectionHeading, Spinner } from '../components/States';
@@ -17,6 +18,13 @@ type FormState = {
 const emptyForm: FormState = { name: '', email: '', subject: '', message: '' };
 
 export function Contact() {
+  useSeo({
+    title: 'Contact Safari Trails — talk to a human in Kampala',
+    description:
+      'Call +256 730 293 345 or send a message. We answer the phone ourselves, in Kampala, Monday to Saturday.',
+    path: '/contact',
+  });
+
   const [form, setForm] = useState<FormState>(emptyForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

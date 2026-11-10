@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { useApi } from '../api/hooks';
 import { toQuery } from '../api/client';
+import { useSeo } from '../seo/useSeo';
 import type { TourMeta, TourSummary } from '../api/types';
 import { Icon } from '../components/Icon';
 import { EmptyState, ErrorState, SectionHeading } from '../components/States';
@@ -33,6 +34,20 @@ const DURATION_BANDS = [
 ];
 
 export function Tours() {
+  useSeo({
+    title: 'Uganda safaris, treks and river trips — all Safari Trails tours',
+    description:
+      'Every tour Safari Trails runs: gorilla trekking in Bwindi, rafting on the Nile, island hopping on Lake Bunyonyi and more. Small groups, local operators, book directly.',
+    path: '/tours',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Safari Trails tours',
+      numberOfItems: 10,
+      itemListElement: [],
+    },
+  });
+
   const [params, setParams] = useSearchParams();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
