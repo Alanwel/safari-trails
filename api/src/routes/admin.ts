@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { and, count, desc, eq, ilike, or, sql } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
 
 import { getDb } from '../db/client.js';
-import { bookings, inquiries } from '../db/schema.js';
+import { adminUsers, bookings, inquiries } from '../db/schema.js';
 import { ApiError, asyncHandler, sendSuccess } from '../lib/http.js';
-import { requireAdmin } from '../middleware/auth.js';
+import { requireAdmin, signAdminToken } from '../middleware/auth.js';
 
 export const adminRouter = Router();
 
@@ -147,5 +148,99 @@ adminRouter.get(
     const db = await getDb();
     const rows = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(50);
     return sendSuccess(res, rows);
+  }),
+);
+
+
+// ---------------------------------------------------------------------------
+// Change your own email / password
+// ---------------------------------------------------------------------------
+const accountSchema = z.object({
+  /** The CURRENT password. Without it, a stolen token could lock the owner out. */
+  currentPassword: z.string().min(1, 'Enter your current password'),
+  email: z.string().trim().email('That email address does not look right').optional(),
+  password: z
+    .string()
+    .min(10, 'Use at least 10 characters')
+    .max(200, 'That password is too long')
+    .optional(),
+  name: z.string().trim().min(2).max(120).optional(),
+});
+
+/**
+ * PATCH /api/admin/account — change the signed-in admin's own details.
+ *
+ * Requires the current password, so a hijacked token alone cannot take the
+ * account over. Changing the password stamps `password_changed_at`, which
+ * makes every token issued before this moment invalid — so the old session is
+ * genuinely closed, not merely discouraged.
+ *
+ * A fresh token is returned so the browser can continue without a re-login.
+ */
+adminRouter.patch(
+  '/account',
+  asyncHandler(async (req, res) => {
+    const db = await getDb();
+    const input = accountSchema.parse(req.body);
+
+    const claims = req.admin;
+    if (!claims) throw ApiError.unauthorized('Sign in to continue');
+
+    const id = Number(claims.sub);
+    const [admin] = await db.select().from(adminUsers).where(eq(adminUsers.id, id)).limit(1);
+    if (!admin) throw ApiError.notFound('That account no longer exists');
+
+    const ok = await bcrypt.compare(input.currentPassword, admin.passwordHash);
+    if (!ok) {
+      throw ApiError.unauthorized('Your current password is not right');
+    }
+
+    const wantsEmail = input.email !== undefined && input.email !== admin.email;
+    const wantsPassword = input.password !== undefined;
+
+    if (!wantsEmail && !wantsPassword && input.name === undefined) {
+      throw ApiError.badRequest('Nothing to change.');
+    }
+
+    if (wantsEmail) {
+      const [taken] = await db
+        .select({ id: adminUsers.id })
+        .from(adminUsers)
+        .where(eq(adminUsers.email, input.email!))
+        .limit(1);
+      if (taken) throw ApiError.conflict('Another admin already uses that email address.');
+    }
+
+    const patch: Record<string, unknown> = {};
+    if (wantsEmail) patch.email = input.email;
+    if (input.name !== undefined) patch.name = input.name;
+    if (wantsPassword) {
+      patch.passwordHash = await bcrypt.hash(input.password!, 10);
+      // Truncate to the second. A JWT records its issue time in WHOLE
+      // SECONDS, so a timestamp with milliseconds would be "newer" than the
+      // token we are about to hand back — and the fresh token would be
+      // rejected as too old the instant it was issued.
+      patch.passwordChangedAt = new Date(Math.floor(Date.now() / 1000) * 1000);
+    }
+
+    const [updated] = await db
+      .update(adminUsers)
+      .set(patch)
+      .where(eq(adminUsers.id, id))
+      .returning();
+
+    // A new token, so the browser stays signed in with the new details.
+    const token = signAdminToken({
+      sub: String(updated.id),
+      email: updated.email,
+      name: updated.name,
+      role: updated.role,
+    });
+
+    return sendSuccess(res, {
+      admin: { id: updated.id, email: updated.email, name: updated.name, role: updated.role },
+      token,
+      passwordChanged: wantsPassword,
+    });
   }),
 );

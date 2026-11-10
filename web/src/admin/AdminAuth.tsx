@@ -43,6 +43,8 @@ type AdminAuthValue = {
   signOut: () => void;
   /** Called when a request comes back 401 — the stored token is dead. */
   sessionExpired: () => void;
+  /** Swap in a freshly issued token (after the account details change). */
+  replaceToken: (token: string) => void;
   /** True when the last sign-out was caused by an expired session. */
   expired: boolean;
 };
@@ -113,9 +115,14 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     setExpired(true);
   }, []);
 
+  /** Take a new token without going through the sign-in form. */
+  const replaceToken = useCallback((next: string) => {
+    setToken(next);
+  }, []);
+
   const value = useMemo<AdminAuthValue>(
-    () => ({ token, admin, signIn, signOut, sessionExpired, expired }),
-    [token, admin, signIn, signOut, sessionExpired, expired],
+    () => ({ token, admin, signIn, signOut, sessionExpired, expired, replaceToken }),
+    [token, admin, signIn, signOut, sessionExpired, expired, replaceToken],
   );
 
   return <AdminAuthContext.Provider value={value}>{children}</AdminAuthContext.Provider>;
@@ -195,7 +202,7 @@ export function AdminLogin({ heading = 'Operator sign in' }: { heading?: string 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="field"
-                placeholder="you@example.com"
+                placeholder="Alanwel32@gmail.com"
               />
             </div>
 

@@ -207,6 +207,8 @@ export const adminUsers = pgTable(
     name: text('name').notNull(),
     role: text('role').notNull().default('admin'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    /** A token issued before this instant is no longer valid. */
+    passwordChangedAt: timestamp('password_changed_at', { withTimezone: true }),
   },
   (t) => [uniqueIndex('admin_users_email_idx').on(t.email)],
 );

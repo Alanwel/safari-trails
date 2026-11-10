@@ -210,7 +210,13 @@ create table if not exists admin_users (
   password_hash text        not null,
   name          text        not null,
   role          text        not null default 'admin',
-  created_at    timestamptz not null default now()
+  created_at    timestamptz not null default now(),
+  -- When the password last changed. A JWT issued BEFORE this moment is
+  -- rejected, so changing the password really locks the old session out.
+  password_changed_at timestamptz
 );
 
 create index if not exists admin_users_email_idx on admin_users (email);
+
+-- Migration for databases created before `password_changed_at` existed.
+alter table admin_users add column if not exists password_changed_at timestamptz;

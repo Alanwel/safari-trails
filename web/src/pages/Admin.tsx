@@ -20,6 +20,7 @@ import { ApiClientError, formatDate, formatMoney } from '../api/client';
 import { useAdminApi } from '../admin/useAdminApi';
 import { useAdminRequest } from '../admin/useAdminRequest';
 import type { AdminStats, Booking, BookingStatus, Inquiry } from '../api/types';
+import { AccountTab } from '../admin/AccountTab';
 import { AdminLogin, useAdminAuth } from '../admin/AdminAuth';
 import { DestinationsTab } from '../admin/DestinationsTab';
 import { ToursTab } from '../admin/ToursTab';
@@ -28,7 +29,13 @@ import { EmptyState, ErrorState, Spinner } from '../components/States';
 
 const STATUSES: BookingStatus[] = ['pending', 'confirmed', 'cancelled', 'completed'];
 
-type AdminView = 'overview' | 'tours' | 'destinations' | 'bookings' | 'messages';
+type AdminView =
+  | 'overview'
+  | 'tours'
+  | 'destinations'
+  | 'bookings'
+  | 'messages'
+  | 'account';
 
 const VIEWS: { key: AdminView; label: string }[] = [
   { key: 'overview', label: 'Overview' },
@@ -36,6 +43,7 @@ const VIEWS: { key: AdminView; label: string }[] = [
   { key: 'destinations', label: 'Destinations' },
   { key: 'bookings', label: 'Bookings' },
   { key: 'messages', label: 'Messages' },
+  { key: 'account', label: 'Account' },
 ];
 
 const statusStyles: Record<BookingStatus, string> = {
@@ -222,6 +230,8 @@ export function Admin() {
       )}
 
       {/* Content tabs ------------------------------------------------- */}
+      {view === 'account' && <AccountTab />}
+
       {view === 'tours' && <ToursTab token={token} />}
       {view === 'destinations' && <DestinationsTab token={token} />}
 

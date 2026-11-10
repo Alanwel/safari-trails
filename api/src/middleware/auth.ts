@@ -13,8 +13,11 @@
  */
 import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { eq } from 'drizzle-orm';
 
 import { env } from '../env.js';
+import { getDb } from '../db/client.js';
+import { adminUsers } from '../db/schema.js';
 import { ApiError } from '../lib/http.js';
 
 export type AdminClaims = {
@@ -22,6 +25,8 @@ export type AdminClaims = {
   email: string;
   name: string;
   role: string;
+  /** When the token was issued (seconds since the epoch), as JWTs carry it. */
+  iat?: number;
 };
 
 const TOKEN_TTL_SECONDS = 60 * 60 * 12; // 12 hours
@@ -41,18 +46,56 @@ export function verifyAdminToken(token: string): AdminClaims {
   return payload as AdminClaims;
 }
 
-/** Express middleware: rejects the request unless a valid admin token is present. */
-export function requireAdmin(req: Request, _res: Response, next: NextFunction) {
+/**
+ * Express middleware: rejects the request unless a valid admin token is present.
+ *
+ * It is async because it checks the token against the database (to see
+ * whether the password changed after the token was issued). Express 4 does
+ * not await middleware, so every path here calls next() explicitly and any
+ * unexpected error is passed to next(err).
+ */
+export async function requireAdmin(req: Request, _res: Response, next: NextFunction) {
   const header = req.headers.authorization;
 
   if (!header || !header.startsWith('Bearer ')) {
     return next(ApiError.unauthorized('Sign in to continue'));
   }
 
+  let claims: AdminClaims;
   try {
-    req.admin = verifyAdminToken(header.slice('Bearer '.length).trim());
-    return next();
+    claims = verifyAdminToken(header.slice('Bearer '.length).trim());
   } catch {
     return next(ApiError.unauthorized('Your session has expired — please sign in again'));
   }
+
+  // Changing the password must really lock the old session out. The JWT
+  // says when it was issued; the database says when the password last
+  // changed. A token older than that is refused.
+  try {
+    const db = await getDb();
+    const [admin] = await db
+      .select({ passwordChangedAt: adminUsers.passwordChangedAt })
+      .from(adminUsers)
+      .where(eq(adminUsers.id, Number(claims.sub)))
+      .limit(1);
+
+    if (!admin) {
+      return next(ApiError.unauthorized('That account no longer exists'));
+    }
+    const issuedAt = claims.iat ?? 0;
+    if (
+      admin.passwordChangedAt &&
+      admin.passwordChangedAt.getTime() > issuedAt * 1000
+    ) {
+      return next(
+        ApiError.unauthorized('Your password has changed — please sign in again'),
+      );
+    }
+  } catch (err) {
+    if (err instanceof ApiError) return next(err);
+    return next(err);
+  }
+
+  req.admin = claims;
+  return next();
 }
